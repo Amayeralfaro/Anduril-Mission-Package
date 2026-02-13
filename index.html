@@ -866,10 +866,18 @@
 
     <script>
         // Boot sequence
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('bootSequence').classList.add('hidden');
-            }, 2000);
+        document.addEventListener('DOMContentLoaded', () => {
+  const boot = document.getElementById('bootSequence');
+  if (!boot) return;
+
+  setTimeout(() => {
+    boot.classList.add('hidden');
+
+    // Ensure it can’t block clicks after fade-out
+    setTimeout(() => {
+      boot.style.display = 'none';
+    }, 800);
+  }, 2000);
         });
 
         // Tab navigation
