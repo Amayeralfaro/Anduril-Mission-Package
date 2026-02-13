@@ -76,7 +76,6 @@
         .boot-sequence.hidden {
             animation: fadeOut 0.5s forwards;
             animation-delay: 2s;
-            pointer-events: none; /* prevents invisible overlay from blocking clicks */
         }
         
         @keyframes fadeOut {
@@ -601,11 +600,11 @@
 
         <!-- Navigation -->
         <div class="nav-tabs">
-            <button class="nav-tab active" onclick="showSection('overview', this)">Mission Overview</button>
-            <button class="nav-tab" onclick="showSection('dossier', this)">Personnel Dossier</button>
-            <button class="nav-tab" onclick="showSection('capabilities', this)">Capabilities</button>
-            <button class="nav-tab" onclick="showSection('history', this)">Mission History</button>
-            <button class="nav-tab" onclick="showSection('deploy', this)">Deploy Asset</button>
+            <button class="nav-tab active" onclick="showSection('overview')">Mission Overview</button>
+            <button class="nav-tab" onclick="showSection('dossier')">Personnel Dossier</button>
+            <button class="nav-tab" onclick="showSection('capabilities')">Capabilities</button>
+            <button class="nav-tab" onclick="showSection('history')">Mission History</button>
+            <button class="nav-tab" onclick="showSection('deploy')">Deploy Asset</button>
         </div>
 
         <!-- Overview Section -->
@@ -867,18 +866,10 @@
 
     <script>
         // Boot sequence
-        document.addEventListener('DOMContentLoaded', () => {
-  const boot = document.getElementById('bootSequence');
-  if (!boot) return;
-
-  setTimeout(() => {
-    boot.classList.add('hidden');
-
-    // Ensure it can’t block clicks after fade-out
-    setTimeout(() => {
-      boot.style.display = 'none';
-    }, 800);
-  }, 2000);
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('bootSequence').classList.add('hidden');
+            }, 2000);
         });
 
         // Tab navigation
@@ -901,6 +892,9 @@
             // Activate clicked tab
             if (clickedButton) {
                 clickedButton.classList.add('active');
+            } else if (window.event && window.event.target) {
+                window.event.target.classList.add('active');
+            }
         }
 
         // Download resume function - FIXED
